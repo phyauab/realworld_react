@@ -1,4 +1,4 @@
-export function Settings() {
+export function SettingsPage() {
   return (
     <div className="settings-page">
       <div className="container page">

@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { Header } from "../Header/Header";
 import { Footer } from "../Footer/Footer";
-import { Home } from "../Pages/Home/Home";
-import { Login } from "../Pages/Login/Login";
-import { Register } from "../Pages/Register/Register";
-import { Settings } from "../Pages/Settings/Settings";
+import { HomePage } from "../Pages/Home";
+import { LoginPage } from "../Pages/Login";
+import { RegisterPage } from "../Pages/Register";
+import { SettingsPage } from "../Pages/Settings";
 
 function App() {
   return (
@@ -14,10 +14,10 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/settings" element={<Settings />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/settings" element={<SettingsPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
         </Routes>
         <Footer />
       </Router>

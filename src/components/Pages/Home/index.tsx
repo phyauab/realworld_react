@@ -1,4 +1,4 @@
-export function Home() {
+export function HomePage() {
   return (
     <div className="home-page">
       <div className="banner">
