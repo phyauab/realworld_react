@@ -9,6 +9,7 @@ import { RegisterPage } from "../Pages/Register";
 import { SettingsPage } from "../Pages/Settings";
 import { CreateArticlePage } from "../Pages/CreateArticle";
 import { EditArticle } from "../Pages/EditArticle";
+import { ArticlePage } from "../Pages/Article";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/editor" element={<CreateArticlePage />}></Route>
           <Route path="/editor/:slug" element={<EditArticle />}></Route>
+          <Route path="/article/:slug" element={<ArticlePage />}></Route>
         </Routes>
         <Footer />
       </Router>
