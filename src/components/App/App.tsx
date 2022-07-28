@@ -6,6 +6,7 @@ import { Footer } from "../Footer/Footer";
 import { Home } from "../Pages/Home/Home";
 import { Login } from "../Pages/Login/Login";
 import { Register } from "../Pages/Register/Register";
+import { Settings } from "../Pages/Settings/Settings";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
         </Routes>

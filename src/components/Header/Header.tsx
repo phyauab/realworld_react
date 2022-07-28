@@ -19,9 +19,9 @@ export function Header() {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
-              <i className="ion-gear-a"></i>&nbsp;Settings
-            </a>
+            <Link className="nav-link" to="/settings">
+              Settings
+            </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/login">
