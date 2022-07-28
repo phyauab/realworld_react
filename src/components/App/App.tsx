@@ -8,6 +8,7 @@ import { LoginPage } from "../Pages/Login";
 import { RegisterPage } from "../Pages/Register";
 import { SettingsPage } from "../Pages/Settings";
 import { CreateArticlePage } from "../Pages/CreateArticle";
+import { EditArticle } from "../Pages/EditArticle";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/editor" element={<CreateArticlePage />}></Route>
+          <Route path="/editor/:slug" element={<EditArticle />}></Route>
         </Routes>
         <Footer />
       </Router>
