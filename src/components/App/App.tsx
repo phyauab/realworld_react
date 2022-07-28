@@ -7,6 +7,7 @@ import { HomePage } from "../Pages/Home";
 import { LoginPage } from "../Pages/Login";
 import { RegisterPage } from "../Pages/Register";
 import { SettingsPage } from "../Pages/Settings";
+import { CreateArticlePage } from "../Pages/CreateArticle";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/editor" element={<CreateArticlePage />}></Route>
         </Routes>
         <Footer />
       </Router>
