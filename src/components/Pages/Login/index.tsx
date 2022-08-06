@@ -1,6 +1,9 @@
 import { updateField } from "./index.slice";
 import { store } from "../../../state/store";
 import { LoginRequest } from "../../../models/auth/LoginRequest";
+import React from "react";
+import { setUser } from "../../App/App.slice";
+import authService from "../../../services/auth";
 
 export function LoginPage() {
   return (
@@ -36,7 +39,10 @@ export function LoginPage() {
                   onChange={(e) => onUpdateField(e.target.name, e.target.value)}
                 />
               </fieldset>
-              <button className="btn btn-lg btn-primary pull-xs-right">
+              <button
+                className="btn btn-lg btn-primary pull-xs-right"
+                onClick={handleSubmit}
+              >
                 Sign up
               </button>
             </form>
@@ -51,4 +57,16 @@ function onUpdateField(name: string, value: string) {
   store.dispatch(
     updateField({ name: name as keyof LoginRequest["user"], value })
   );
+}
+
+function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  authService
+    .login(store.getState().login.loginRequest)
+    .then((e) => {
+      store.dispatch(setUser(e.data.user));
+    })
+    .catch((e) => {
+      console.log("error");
+    });
 }

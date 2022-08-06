@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import login from "../components/Pages/Login/index.slice";
+import app from "../components/App/App.slice";
 
 export const store = configureStore({
-  reducer: { login },
+  reducer: { app, login },
   devTools: {},
 });
 

@@ -1,8 +1,6 @@
 export interface LoginRequest {
-  user: user;
-}
-
-interface user {
-  email: string;
-  password: string;
+  user: {
+    email: string;
+    password: string;
+  };
 }

@@ -1,11 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LoginRequest } from "../../../models/auth/LoginRequest";
 
-const initialState: LoginRequest = {
-  user: {
-    email: "",
-    password: "",
+interface LoginState {
+  loginRequest: LoginRequest;
+  hi: string;
+}
+
+const initialState: LoginState = {
+  loginRequest: {
+    user: {
+      email: "",
+      password: "",
+    },
   },
+  hi: "hi",
 };
 
 const slice = createSlice({
@@ -18,10 +26,8 @@ const slice = createSlice({
         payload: { name, value },
       }: PayloadAction<{ name: keyof LoginRequest["user"]; value: string }>
     ) => {
-      console.log(name);
-      state.user[name] = value;
+      state.loginRequest.user[name] = value;
     },
-    login: () => {},
   },
 });
 
