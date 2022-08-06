@@ -1,5 +1,6 @@
-import { LoginState, updateField } from "./index.slice";
+import { updateField } from "./index.slice";
 import { store } from "../../../state/store";
+import { LoginRequest } from "../../../models/auth/LoginRequest";
 
 export function LoginPage() {
   return (
@@ -48,6 +49,6 @@ export function LoginPage() {
 
 function onUpdateField(name: string, value: string) {
   store.dispatch(
-    updateField({ name: name as keyof LoginState["user"], value })
+    updateField({ name: name as keyof LoginRequest["user"], value })
   );
 }

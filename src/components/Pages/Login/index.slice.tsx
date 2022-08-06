@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { LoginRequest } from "../../../models/auth/LoginRequest";
 
-export interface LoginState {
-  user: {
-    email: string;
-    password: string;
-  };
-}
-
-const initialState: LoginState = {
+const initialState: LoginRequest = {
   user: {
     email: "",
     password: "",
@@ -22,11 +16,12 @@ const slice = createSlice({
       state,
       {
         payload: { name, value },
-      }: PayloadAction<{ name: keyof LoginState["user"]; value: string }>
+      }: PayloadAction<{ name: keyof LoginRequest["user"]; value: string }>
     ) => {
       console.log(name);
       state.user[name] = value;
     },
+    login: () => {},
   },
 });
 
