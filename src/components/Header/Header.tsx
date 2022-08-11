@@ -9,14 +9,14 @@ export function Header() {
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <a className="nav-link active" href="">
+            <Link className="nav-link" to="/">
               Home
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <Link className="nav-link" to="/editor">
               <i className="ion-compose"></i>&nbsp;New Article
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/settings">
