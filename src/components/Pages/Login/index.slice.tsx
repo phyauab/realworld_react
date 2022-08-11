@@ -31,7 +31,7 @@ const slice = createSlice({
     },
     setError: (
       state,
-      { payload: e }: PayloadAction<ValidationErrorResponse>
+      { payload: e }: PayloadAction<ValidationErrorResponse | undefined>
     ) => {
       state.error = e;
     },

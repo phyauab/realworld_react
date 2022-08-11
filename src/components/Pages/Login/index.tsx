@@ -71,6 +71,7 @@ function onUpdateField(name: string, value: string) {
 
 function handleSubmit(e: React.FormEvent) {
   e.preventDefault();
+  store.dispatch(setError(undefined));
   authService
     .login(store.getState().login.loginRequest)
     .then((e) => {

@@ -3,18 +3,22 @@ import { User } from "../../models/common/User.";
 
 export interface AppState {
   user?: User;
+  isLogin: Boolean;
 }
 
 const initialState: AppState = {
   user: undefined,
+  isLogin: false,
 };
 
 const slice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setUser: (state, { payload: user }: PayloadAction<User>) => {
+    setUser: (state, { payload: user }: PayloadAction<User | undefined>) => {
       state.user = user;
+      if (user) state.isLogin = true;
+      else state.isLogin = false;
     },
   },
 });
