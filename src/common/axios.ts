@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { ValidationErrorResponse } from "../models/common/ValidationErrorResponse";
 
 const myAxios = axios.create({
   baseURL: process.env.REACT_APP_API_BASEURL,
@@ -9,9 +10,18 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (e: AxiosError): Promise<AxiosError> => {
-  return Promise.reject(e.response);
+  if (isAxiosError<ValidationErrorResponse>(e)) {
+    return Promise.reject(e);
+  }
+  return Promise.reject(e);
 };
 
 myAxios.interceptors.response.use(onResponse, onResponseError);
+
+export function isAxiosError<ValidationErrorResponse>(
+  error: unknown
+): error is AxiosError<ValidationErrorResponse> {
+  return axios.isAxiosError(error);
+}
 
 export default myAxios;

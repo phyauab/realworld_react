@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LoginRequest } from "../../../models/auth/LoginRequest";
+import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
 
-interface LoginState {
+export interface LoginState {
   loginRequest: LoginRequest;
-  hi: string;
+  error?: ValidationErrorResponse;
 }
 
 const initialState: LoginState = {
@@ -13,7 +14,7 @@ const initialState: LoginState = {
       password: "",
     },
   },
-  hi: "hi",
+  error: undefined,
 };
 
 const slice = createSlice({
@@ -28,8 +29,14 @@ const slice = createSlice({
     ) => {
       state.loginRequest.user[name] = value;
     },
+    setError: (
+      state,
+      { payload: e }: PayloadAction<ValidationErrorResponse>
+    ) => {
+      state.error = e;
+    },
   },
 });
 
-export const { updateField } = slice.actions;
+export const { updateField, setError } = slice.actions;
 export default slice.reducer;

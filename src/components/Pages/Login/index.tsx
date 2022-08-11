@@ -1,11 +1,17 @@
-import { updateField } from "./index.slice";
+import { setError, updateField } from "./index.slice";
 import { store } from "../../../state/store";
 import { LoginRequest } from "../../../models/auth/LoginRequest";
 import React from "react";
 import { setUser } from "../../App/App.slice";
 import authService from "../../../services/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/RootState";
+import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
+import { AxiosError } from "axios";
 
 export function LoginPage() {
+  const error = useSelector((state: RootState) => state.login.error);
+
   return (
     <div className="auth-page">
       <div className="container page">
@@ -15,9 +21,13 @@ export function LoginPage() {
             <p className="text-xs-center">
               <a href="">Need an account?</a>
             </p>
-
             <ul className="error-messages">
-              <li>That email is already taken</li>
+              {error?.errors &&
+                Object.entries(error.errors).map(([field, fieldErrors]) => (
+                  <li>
+                    {field} {fieldErrors}
+                  </li>
+                ))}
             </ul>
 
             <form>
@@ -66,7 +76,9 @@ function handleSubmit(e: React.FormEvent) {
     .then((e) => {
       store.dispatch(setUser(e.data.user));
     })
-    .catch((e) => {
-      console.log("error");
+    .catch((e: AxiosError<ValidationErrorResponse>) => {
+      if (e.response) {
+        store.dispatch(setError(e.response?.data));
+      }
     });
 }
