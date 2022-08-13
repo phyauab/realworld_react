@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../state/RootState";
@@ -24,8 +23,9 @@ export function Header() {
                 : headerItem.isPrivate === false ||
                   headerItem.isPrivate === undefined
             )
-            .map((headerItem: HeaderItem) => (
+            .map((headerItem: HeaderItem, index) => (
               <NavItem
+                key={index}
                 title={headerItem.title}
                 link={headerItem.link}
                 icon={headerItem.icon}
