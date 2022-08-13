@@ -1,16 +1,23 @@
 import { setError, updateField } from "./index.slice";
 import { store } from "../../../state/store";
 import { LoginRequest } from "../../../models/auth/LoginRequest";
-import React from "react";
+import React, { useEffect } from "react";
 import { setUser } from "../../App/App.slice";
 import authService from "../../../services/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/RootState";
 import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
 import { AxiosError } from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export function LoginPage() {
   const error = useSelector((state: RootState) => state.login.error);
+  const isLogin = useSelector((state: RootState) => state.app.isLogin);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogin) navigate("/");
+  }, [isLogin]);
 
   return (
     <div className="auth-page">
