@@ -10,6 +10,7 @@ import { SettingsPage } from "../Pages/Settings";
 import { CreateArticlePage } from "../Pages/CreateArticle";
 import { EditArticle } from "../Pages/EditArticle";
 import { ArticlePage } from "../Pages/Article";
+import { PrivateRoute } from "../../common/PrivateRoute";
 
 function App() {
   return (
@@ -18,11 +19,20 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
-          <Route path="/settings" element={<SettingsPage />}></Route>
+          <Route
+            path="/settings"
+            element={<PrivateRoute children={<SettingsPage />} />}
+          ></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
-          <Route path="/editor" element={<CreateArticlePage />}></Route>
-          <Route path="/editor/:slug" element={<EditArticle />}></Route>
+          <Route
+            path="/editor"
+            element={<PrivateRoute children={<CreateArticlePage />} />}
+          ></Route>
+          <Route
+            path="/editor/:slug"
+            element={<PrivateRoute children={<EditArticle />} />}
+          ></Route>
           <Route path="/article/:slug" element={<ArticlePage />}></Route>
         </Routes>
         <Footer />
