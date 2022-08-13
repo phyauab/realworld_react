@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../state/RootState";
 import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
 import { AxiosError } from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function LoginPage() {
   const error = useSelector((state: RootState) => state.login.error);
@@ -17,7 +17,7 @@ export function LoginPage() {
 
   useEffect(() => {
     if (isLogin) navigate("/");
-  }, [isLogin]);
+  }, [isLogin, navigate]);
 
   return (
     <div className="auth-page">
@@ -26,7 +26,7 @@ export function LoginPage() {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign in</h1>
             <p className="text-xs-center">
-              <a href="">Need an account?</a>
+              <NavLink to="/register">Need an account?</NavLink>
             </p>
             <ul className="error-messages">
               {error?.errors &&
