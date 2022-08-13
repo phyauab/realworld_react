@@ -31,7 +31,9 @@ export function Header() {
                 icon={headerItem.icon}
               />
             ))}
-          {me && <NavItem title={me?.username} link={"/"} />}
+          {me && (
+            <NavItem title={me?.username} link={`/profile/${me.username}`} />
+          )}
         </ul>
       </div>
     </nav>

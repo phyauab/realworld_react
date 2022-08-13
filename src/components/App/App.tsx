@@ -14,6 +14,7 @@ import { SettingsPage } from "../Pages/Settings";
 import { CreateArticlePage } from "../Pages/CreateArticle";
 import { EditArticle } from "../Pages/EditArticle";
 import { ArticlePage } from "../Pages/Article";
+import { ProfilePage } from "../Pages/Profile";
 import { PrivateRoute } from "../../common/PrivateRoute";
 
 function App() {
@@ -32,11 +33,15 @@ function App() {
           <Route
             path="/editor"
             element={<PrivateRoute children={<CreateArticlePage />} />}
-          ></Route>
+          />
+          <Route
+            path="profile/:username"
+            element={<PrivateRoute children={<ProfilePage />} />}
+          />
           <Route
             path="/editor/:slug"
             element={<PrivateRoute children={<EditArticle />} />}
-          ></Route>
+          />
           <Route path="/article/:slug" element={<ArticlePage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
