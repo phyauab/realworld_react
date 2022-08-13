@@ -17,8 +17,12 @@ const slice = createSlice({
   reducers: {
     setUser: (state, { payload: user }: PayloadAction<User | undefined>) => {
       state.user = user;
-      if (user) state.isLogin = true;
-      else state.isLogin = false;
+      if (user) {
+        state.isLogin = true;
+        // localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        state.isLogin = false;
+      }
     },
   },
 });

@@ -16,7 +16,9 @@ export function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin) navigate("/");
+    if (isLogin) {
+      navigate("/");
+    }
   }, [isLogin, navigate]);
 
   return (

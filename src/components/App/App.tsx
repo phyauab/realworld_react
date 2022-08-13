@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import { Header } from "../Header/Header";
 import { Footer } from "../Footer/Footer";
@@ -17,13 +22,13 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/" element={<HomePage />} />
           <Route
             path="/settings"
             element={<PrivateRoute children={<SettingsPage />} />}
           ></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/editor"
             element={<PrivateRoute children={<CreateArticlePage />} />}
@@ -32,7 +37,8 @@ function App() {
             path="/editor/:slug"
             element={<PrivateRoute children={<EditArticle />} />}
           ></Route>
-          <Route path="/article/:slug" element={<ArticlePage />}></Route>
+          <Route path="/article/:slug" element={<ArticlePage />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
       </Router>
