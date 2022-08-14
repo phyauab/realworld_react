@@ -13,11 +13,10 @@ export function ArticlePreview({ article }: Props) {
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <a href="profile.html">
-          <Link to={`/profile/${article.author.username}`}>
-            <img src={article.author.image || DEFAULT_USER_IMAGE} />
-          </Link>
-        </a>
+        <Link to={`/profile/${article.author.username}`}>
+          <img src={article.author.image || DEFAULT_USER_IMAGE} />
+        </Link>
+
         <div className="info">
           <Link to={`/profile/${article.author.username}`} className="author">
             {article.author.username}
