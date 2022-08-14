@@ -3,24 +3,28 @@ import { Article } from "../../../models/article/Article";
 import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
 
 export interface HomeState {
-  globalFeeds?: MultipleArticleResponse;
+  feeds?: MultipleArticleResponse;
+  feedToggle: string;
   tags?: string[];
+  tag?: string;
 }
 
 const initialState: HomeState = {
-  globalFeeds: undefined,
+  feeds: undefined,
+  feedToggle: "globalFeed",
   tags: undefined,
+  tag: undefined,
 };
 
 const slice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setGlobalFeeds: (
+    setFeeds: (
       state,
-      { payload: globalFeeds }: PayloadAction<MultipleArticleResponse>
+      { payload: feeds }: PayloadAction<MultipleArticleResponse>
     ) => {
-      state.globalFeeds = globalFeeds;
+      state.feeds = feeds;
     },
     setArticle: (
       state,
@@ -28,14 +32,21 @@ const slice = createSlice({
         payload: { article, index },
       }: PayloadAction<{ article: Article; index: number }>
     ) => {
-      if (!state.globalFeeds) return;
-      state.globalFeeds.articles[index] = article;
+      if (!state.feeds) return;
+      state.feeds.articles[index] = article;
     },
     setTags: (state, { payload: tags }: PayloadAction<string[]>) => {
       state.tags = tags;
     },
+    setTag: (state, { payload: tag }: PayloadAction<string | undefined>) => {
+      state.tag = tag;
+    },
+    setFeedToggle: (state, { payload: feedToggle }: PayloadAction<string>) => {
+      state.feedToggle = feedToggle;
+    },
   },
 });
 
-export const { setGlobalFeeds, setArticle, setTags } = slice.actions;
+export const { setFeeds, setArticle, setTags, setTag, setFeedToggle } =
+  slice.actions;
 export default slice.reducer;

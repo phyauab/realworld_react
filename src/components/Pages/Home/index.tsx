@@ -5,18 +5,17 @@ import { RootState } from "../../../state/RootState";
 import { ArticlePreview } from "../../Article/ArticlePreview";
 import articleService from "../../../services/article";
 import tagService from "../../../services/tag";
-import { setGlobalFeeds, setTags } from "./index.slice";
+import { setFeeds, setFeedToggle, setTag, setTags } from "./index.slice";
 import { store } from "../../../state/store";
 import { TagResponse } from "../../../models/tag/tag";
 import { AxiosResponse } from "axios";
+import { ArticleListViewr } from "../../Article/ArticleListViewer";
 
 export function HomePage() {
-  const globalFeeds = useSelector((state: RootState) => state.home.globalFeeds);
   const tags = useSelector((state: RootState) => state.home.tags);
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
 
   useEffect(() => {
-    loadGlobalFeeds();
     loadTags();
   }, []);
 
@@ -26,27 +25,7 @@ export function HomePage() {
 
       <div className="container page">
         <div className="row">
-          <div className="col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link disabled" href="">
-                    Your Feed
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="">
-                    Global Feed
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {globalFeeds &&
-              globalFeeds?.articles.map((article: Article, index: number) => (
-                <ArticlePreview key={index} article={article} index={index} />
-              ))}
-          </div>
+          <ArticleListViewr />
 
           <div className="col-md-3">
             <div className="sidebar">
@@ -54,8 +33,16 @@ export function HomePage() {
 
               <div className="tag-list">
                 {tags &&
-                  tags.map((tag: string) => (
-                    <a href="" className="tag-pill tag-default">
+                  tags.map((tag: string, index: number) => (
+                    <a
+                      href="#"
+                      key={index}
+                      className="tag-pill tag-default"
+                      onClick={() => {
+                        store.dispatch(setTag(tag));
+                        store.dispatch(setFeedToggle("tag"));
+                      }}
+                    >
                       {tag}
                     </a>
                   ))}
@@ -66,13 +53,6 @@ export function HomePage() {
       </div>
     </div>
   );
-}
-
-function loadGlobalFeeds() {
-  articleService
-    .listArticles(10, 0)
-    .then((e) => store.dispatch(setGlobalFeeds(e.data)))
-    .catch((e) => console.log(e));
 }
 
 function loadTags() {
