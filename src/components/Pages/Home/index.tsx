@@ -9,6 +9,7 @@ import { store } from "../../../state/store";
 
 export function HomePage() {
   const globalFeeds = useSelector((state: RootState) => state.home.globalFeeds);
+  const isLogin = useSelector((state: RootState) => state.app.isLogin);
 
   useEffect(() => {
     loadGlobalFeeds();
@@ -16,12 +17,7 @@ export function HomePage() {
 
   return (
     <div className="home-page">
-      <div className="banner">
-        <div className="container">
-          <h1 className="logo-font">conduit</h1>
-          <p>A place to share your knowledge.</p>
-        </div>
-      </div>
+      {!isLogin && <Banner />}
 
       <div className="container page">
         <div className="row">
@@ -90,4 +86,15 @@ function loadGlobalFeeds() {
     .listArticles(10, 0)
     .then((e) => store.dispatch(setGlobalFeeds(e.data)))
     .catch((e) => console.log(e));
+}
+
+function Banner() {
+  return (
+    <div className="banner">
+      <div className="container">
+        <h1 className="logo-font">conduit</h1>
+        <p>A place to share your knowledge.</p>
+      </div>
+    </div>
+  );
 }
