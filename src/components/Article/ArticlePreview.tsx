@@ -22,7 +22,10 @@ export function ArticlePreview({ article, index }: Props) {
   const navigate = useNavigate();
 
   function clickFavoriteButton(slug: string) {
-    if (!isLogin) navigate("/login");
+    if (!isLogin) {
+      navigate("/login");
+      return;
+    }
     setIsFavoriting(true);
     if (article.favorited) {
       articleService
