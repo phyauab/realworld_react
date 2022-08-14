@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { DEFAULT_USER_IMAGE } from "../../common/Constant";
 import { formatDate } from "../../common/Utils";
 import { Article } from "../../models/article/Article";
 
@@ -7,9 +8,6 @@ interface Props {
 }
 
 export function ArticlePreview({ article }: Props) {
-  const DEFAULT_USER_IMAGE =
-    "https://api.realworld.io/images/smiley-cyrus.jpeg";
-
   return (
     <div className="article-preview">
       <div className="article-meta">
