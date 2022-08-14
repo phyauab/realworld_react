@@ -16,8 +16,26 @@ import { EditArticle } from "../Pages/EditArticle";
 import { ArticlePage } from "../Pages/Article";
 import { ProfilePage } from "../Pages/Profile";
 import { PrivateRoute } from "../../common/PrivateRoute";
+import { useEffect } from "react";
+import authService from "../../services/auth";
+import { UserResponse } from "../../models/user/UserResponse";
+import { setIsLoading, setUser } from "./App.slice";
+import { AxiosResponse } from "axios";
+import { store } from "../../state/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/RootState";
 
 function App() {
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <>
       <Router>
@@ -49,6 +67,20 @@ function App() {
       </Router>
     </>
   );
+}
+
+function init() {
+  store.dispatch(setIsLoading(true));
+  authService
+    .getCurrentUser()
+    .then((res: AxiosResponse<UserResponse>) => {
+      store.dispatch(setUser(res.data.user));
+      store.dispatch(setIsLoading(false)); // so that !isLoading is after setUser
+    })
+    .catch((e) => {
+      console.log(e);
+      store.dispatch(setIsLoading(false)); // so that !isLoading is after setUser
+    });
 }
 
 export default App;

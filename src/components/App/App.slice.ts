@@ -5,11 +5,13 @@ import { User } from "../../models/common/User";
 export interface AppState {
   user?: User;
   isLogin: Boolean;
+  isLoading: boolean;
 }
 
 const initialState: AppState = {
   user: undefined,
   isLogin: false,
+  isLoading: true,
 };
 
 const slice = createSlice({
@@ -20,7 +22,7 @@ const slice = createSlice({
       state.user = user;
       if (user) {
         state.isLogin = true;
-        localStorage.setItem("realword_token", user.token);
+        localStorage.setItem("realworld_token", user.token);
         myAxios.defaults.headers.common[
           "Authorization"
         ] = `Token ${user.token}`;
@@ -28,8 +30,11 @@ const slice = createSlice({
         state.isLogin = false;
       }
     },
+    setIsLoading: (state, { payload: isLoading }: PayloadAction<boolean>) => {
+      state.isLoading = isLoading;
+    },
   },
 });
 
-export const { setUser } = slice.actions;
+export const { setUser, setIsLoading } = slice.actions;
 export default slice.reducer;

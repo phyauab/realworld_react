@@ -3,6 +3,9 @@ import { ValidationErrorResponse } from "../models/common/ValidationErrorRespons
 
 const myAxios = axios.create({
   baseURL: process.env.REACT_APP_API_BASEURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
