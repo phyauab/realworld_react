@@ -4,15 +4,20 @@ import { Article } from "../../../models/article/Article";
 import { RootState } from "../../../state/RootState";
 import { ArticlePreview } from "../../Article/ArticlePreview";
 import articleService from "../../../services/article";
-import { setGlobalFeeds } from "./index.slice";
+import tagService from "../../../services/tag";
+import { setGlobalFeeds, setTags } from "./index.slice";
 import { store } from "../../../state/store";
+import { TagResponse } from "../../../models/tag/tag";
+import { AxiosResponse } from "axios";
 
 export function HomePage() {
   const globalFeeds = useSelector((state: RootState) => state.home.globalFeeds);
+  const tags = useSelector((state: RootState) => state.home.tags);
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
 
   useEffect(() => {
     loadGlobalFeeds();
+    loadTags();
   }, []);
 
   return (
@@ -48,30 +53,12 @@ export function HomePage() {
               <p>Popular Tags</p>
 
               <div className="tag-list">
-                <a href="" className="tag-pill tag-default">
-                  programming
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  javascript
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  emberjs
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  angularjs
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  react
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  mean
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  node
-                </a>
-                <a href="" className="tag-pill tag-default">
-                  rails
-                </a>
+                {tags &&
+                  tags.map((tag: string) => (
+                    <a href="" className="tag-pill tag-default">
+                      {tag}
+                    </a>
+                  ))}
               </div>
             </div>
           </div>
@@ -86,6 +73,15 @@ function loadGlobalFeeds() {
     .listArticles(10, 0)
     .then((e) => store.dispatch(setGlobalFeeds(e.data)))
     .catch((e) => console.log(e));
+}
+
+function loadTags() {
+  tagService
+    .getTags()
+    .then((res: AxiosResponse<TagResponse>) =>
+      store.dispatch(setTags(res.data.tags))
+    )
+    .catch();
 }
 
 function Banner() {
