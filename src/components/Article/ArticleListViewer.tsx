@@ -25,8 +25,8 @@ export function ArticleListViewr() {
     <div className="col-md-9">
       <div className="feed-toggle">
         <ul className="nav nav-pills outline-active">
-          <li className="nav-item">
-            {isLogin && (
+          {isLogin && (
+            <li className="nav-item">
               <a
                 href="#"
                 className={`nav-link ${
@@ -36,8 +36,8 @@ export function ArticleListViewr() {
               >
                 Your Feed
               </a>
-            )}
-          </li>
+            </li>
+          )}
           <li className="nav-item">
             <a
               href="#"
@@ -54,7 +54,6 @@ export function ArticleListViewr() {
               <a
                 href="#"
                 className={`nav-link ${feedToggle === "tag" ? "active" : ""}`}
-                // onClick={() => changeTag("tag")}
               >
                 {`# ${tag}`}
               </a>
@@ -85,7 +84,7 @@ function loadArticles(tag?: string) {
     .catch((e) => console.log(e));
 }
 
-function changeFeedToggle(feed: string, tag?: string) {
+function changeFeedToggle(feed: string) {
   store.dispatch(setTag(undefined));
   store.dispatch(setFeedToggle(feed));
 }

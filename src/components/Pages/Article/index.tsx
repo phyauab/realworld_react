@@ -44,7 +44,7 @@ export function ArticlePage() {
 
         <div className="article-actions">
           <div className="article-meta">
-            <a href="profile.html">
+            <a href="#">
               <img src="http://i.imgur.com/Qr71crq.jpg" />
             </a>
             <div className="info">
