@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../models/common/User.";
+import { User } from "../../models/common/User";
 
 export interface AppState {
   user?: User;

@@ -1,4 +1,19 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Article } from "../../../models/article/Article";
+import { RootState } from "../../../state/RootState";
+import { ArticlePreview } from "../../Article/ArticlePreview";
+import articleService from "../../../services/article";
+import { setGlobalFeeds } from "./index.slice";
+import { store } from "../../../state/store";
+
 export function HomePage() {
+  const globalFeeds = useSelector((state: RootState) => state.home.globalFeeds);
+
+  useEffect(() => {
+    loadGlobalFeeds();
+  }, []);
+
   return (
     <div className="home-page">
       <div className="banner">
@@ -26,52 +41,10 @@ export function HomePage() {
               </ul>
             </div>
 
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href="profile.html">
-                  <img src="http://i.imgur.com/Qr71crq.jpg" />
-                </a>
-                <div className="info">
-                  <a href="" className="author">
-                    Eric Simons
-                  </a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"></i> 29
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>How to build webapps that scale</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>
-
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href="profile.html">
-                  <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                </a>
-                <div className="info">
-                  <a href="" className="author">
-                    Albert Pai
-                  </a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"></i> 32
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>
-                  The song you won't ever stop singing. No matter how hard you
-                  try.
-                </h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>
+            {globalFeeds &&
+              globalFeeds?.articles.map((article: Article, index: number) => (
+                <ArticlePreview key={index} article={article} />
+              ))}
           </div>
 
           <div className="col-md-3">
@@ -110,4 +83,11 @@ export function HomePage() {
       </div>
     </div>
   );
+}
+
+function loadGlobalFeeds() {
+  articleService
+    .listArticles(10, 0)
+    .then((e) => store.dispatch(setGlobalFeeds(e.data)))
+    .catch((e) => console.log(e));
 }
