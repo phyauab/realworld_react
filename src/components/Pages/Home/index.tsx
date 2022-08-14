@@ -43,7 +43,7 @@ export function HomePage() {
 
             {globalFeeds &&
               globalFeeds?.articles.map((article: Article, index: number) => (
-                <ArticlePreview key={index} article={article} />
+                <ArticlePreview key={index} article={article} index={index} />
               ))}
           </div>
 

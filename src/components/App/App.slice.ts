@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import myAxios from "../../common/axios";
 import { User } from "../../models/common/User";
 
 export interface AppState {
@@ -19,7 +20,10 @@ const slice = createSlice({
       state.user = user;
       if (user) {
         state.isLogin = true;
-        // localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("realword_token", user.token);
+        myAxios.defaults.headers.common[
+          "Authorization"
+        ] = `Token ${user.token}`;
       } else {
         state.isLogin = false;
       }
