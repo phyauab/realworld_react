@@ -9,6 +9,7 @@ import { RootState } from "../../../state/RootState";
 import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
 import { AxiosError } from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ErrorMessage } from "../../ErrorMessage";
 
 export function LoginPage() {
   const error = useSelector((state: RootState) => state.login.error);
@@ -30,14 +31,16 @@ export function LoginPage() {
             <p className="text-xs-center">
               <NavLink to="/register">Need an account?</NavLink>
             </p>
-            <ul className="error-messages">
+            {/* <ul className="error-messages">
               {error?.errors &&
                 Object.entries(error.errors).map(([field, fieldErrors]) => (
                   <li>
                     {field} {fieldErrors}
                   </li>
                 ))}
-            </ul>
+            </ul> */}
+
+            <ErrorMessage error={error} />
 
             <form>
               <fieldset className="form-group">

@@ -5,22 +5,25 @@ import {
 } from "../../../models/article/EditorArticle";
 import { store } from "../../../state/store";
 import { Editor } from "../../Editor";
-import { updateField } from "./index.slice";
 import articleService from "../../../services/article";
 import { AxiosResponse } from "axios";
 import { SingleArticleResponse } from "../../../models/article/SingleArticleResponse";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { updateField } from "../../Editor/index.slice";
 
 export function CreateArticlePage() {
   const navigate = useNavigate();
+
+  useEffect(() => {}, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const article: EditorArticle = {
-      title: store.getState().createArticle.title,
-      description: store.getState().createArticle.description,
-      body: store.getState().createArticle.body,
+      title: store.getState().editorArticle.title,
+      description: store.getState().editorArticle.description,
+      body: store.getState().editorArticle.body,
     };
 
     const createArticleRequest: EditorArticleRequest = {
@@ -28,10 +31,10 @@ export function CreateArticlePage() {
     };
 
     if (
-      store.getState().createArticle.tags &&
-      store.getState().createArticle.tags?.length !== 0
+      store.getState().editorArticle.tags &&
+      store.getState().editorArticle.tags?.length !== 0
     ) {
-      const tagList = store.getState().createArticle.tags?.split(",");
+      const tagList = store.getState().editorArticle.tags?.split(",");
       article.tagList = tagList;
     }
 

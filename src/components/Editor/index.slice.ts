@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EditorArticleState } from "../../../models/article/EditorArticle";
+import { EditorArticleState } from "../../models/article/EditorArticle";
 
 const initialState: EditorArticleState = {
   title: "",
@@ -9,7 +9,7 @@ const initialState: EditorArticleState = {
 };
 
 const slice = createSlice({
-  name: "createArticle",
+  name: "editorArticle",
   initialState,
   reducers: {
     updateField: (
@@ -23,8 +23,14 @@ const slice = createSlice({
     ) => {
       state[name] = value;
     },
+    resetState: (state) => {
+      state.title = "";
+      state.description = "";
+      state.body = "";
+      state.tags = undefined;
+    },
   },
 });
 
-export const { updateField } = slice.actions;
+export const { updateField, resetState } = slice.actions;
 export default slice.reducer;
