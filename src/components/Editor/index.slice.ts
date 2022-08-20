@@ -1,15 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { EditorArticleRequest } from "../../models/article/CreateArticleRequest";
 import { EditorArticleState } from "../../models/article/EditorArticle";
+import { ValidationErrorResponse } from "../../models/common/ValidationErrorResponse";
 
-const initialState: EditorArticleState = {
-  title: "",
-  description: "",
-  body: "",
-  tags: undefined,
+export interface EditorState {
+  editorArticleRequest: EditorArticleRequest;
+  error?: ValidationErrorResponse;
+}
+
+const initialState: EditorState = {
+  editorArticleRequest: {
+    article: {
+      title: "",
+      description: "",
+      body: "",
+      tagList: undefined,
+    },
+  },
+  error: undefined,
 };
 
 const slice = createSlice({
-  name: "editorArticle",
+  name: "editor",
   initialState,
   reducers: {
     updateField: (
@@ -21,16 +33,21 @@ const slice = createSlice({
         value: string;
       }>
     ) => {
-      state[name] = value;
+      if (name === "tags") {
+        state.editorArticleRequest.article.tagList = value.split(",");
+      } else {
+        state.editorArticleRequest.article[name] = value;
+      }
     },
-    resetState: (state) => {
-      state.title = "";
-      state.description = "";
-      state.body = "";
-      state.tags = undefined;
+    setError: (
+      state,
+      { payload: e }: PayloadAction<ValidationErrorResponse | undefined>
+    ) => {
+      state.error = e;
     },
+    resetState: () => initialState,
   },
 });
 
-export const { updateField, resetState } = slice.actions;
+export const { updateField, setError, resetState } = slice.actions;
 export default slice.reducer;

@@ -31,14 +31,6 @@ export function LoginPage() {
             <p className="text-xs-center">
               <NavLink to="/register">Need an account?</NavLink>
             </p>
-            {/* <ul className="error-messages">
-              {error?.errors &&
-                Object.entries(error.errors).map(([field, fieldErrors]) => (
-                  <li>
-                    {field} {fieldErrors}
-                  </li>
-                ))}
-            </ul> */}
 
             <ErrorMessage error={error} />
 
