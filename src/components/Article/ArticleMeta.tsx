@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DEFAULT_USER_IMAGE } from "../../common/Constant";
 import { formatDate } from "../../common/Utils";
 import { Profile } from "../../models/profile/Profile";
@@ -29,15 +29,19 @@ export function ArticleMeta({
   favorited,
   favoritesCount,
 }: Props) {
+  const navigate = useNavigate();
   const isFollowing = useSelector(
     (state: RootState) => state.article.isFollowing
   );
-
   const isFavoriting = useSelector(
     (state: RootState) => state.article.isFavoriting
   );
+  const isLogin = useSelector((state: RootState) => state.app.isLogin);
 
   async function followUser() {
+    if (!isLogin) {
+      return navigate("/login");
+    }
     store.dispatch(setIsFollowing(true));
     try {
       const res = author.following
@@ -51,6 +55,9 @@ export function ArticleMeta({
   }
 
   async function favoriteArticle() {
+    if (!isLogin) {
+      return navigate("/login");
+    }
     store.dispatch(setIsFavoriting(true));
     try {
       const res = favorited
