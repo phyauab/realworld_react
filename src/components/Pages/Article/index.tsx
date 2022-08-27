@@ -2,17 +2,28 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/RootState";
 import { store } from "../../../state/store";
-import { resetState, setArticle, setIsLoading } from "../Article/index.slice";
+import {
+  resetState,
+  setArticle,
+  setComments,
+  setIsLoading,
+} from "../Article/index.slice";
 import articleService from "../../../services/article";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SingleArticleResponse } from "../../../models/article/SingleArticleResponse";
 import { AxiosResponse } from "axios";
 import { ArticleMeta } from "../../Article/ArticleMeta";
 import { CommentForm } from "../../Comment/CommentForm";
+import { CommentView } from "../../Comment/Comment";
+import { MultipleCommentResponse } from "../../../models/comment/MultipleCommentResponse";
 
 export function ArticlePage() {
   const { slug } = useParams();
   const article = useSelector((state: RootState) => state.article.article);
+  const comments = useSelector(
+    (state: RootState) => state.article.comments.comments
+  );
+  const user = useSelector((state: RootState) => state.app.user);
   const isLoading = useSelector((state: RootState) => state.article.isLoading);
 
   function init() {
@@ -29,6 +40,15 @@ export function ArticlePage() {
           console.log(e);
         });
       store.dispatch(setIsLoading(false));
+
+      articleService
+        .getComments(slug)
+        .then((res: AxiosResponse<MultipleCommentResponse>) => {
+          store.dispatch(setComments(res.data));
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }
 
@@ -76,57 +96,20 @@ export function ArticlePage() {
 
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
-            <CommentForm />
-
-            <div className="card">
-              <div className="card-block">
-                <p className="card-text">
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className="card-footer">
-                <a href="" className="comment-author">
-                  <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
-                    className="comment-author-img"
-                  />
-                </a>
-                &nbsp;
-                <a href="" className="comment-author">
-                  Jacob Schmidt
-                </a>
-                <span className="date-posted">Dec 29th</span>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-block">
-                <p className="card-text">
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className="card-footer">
-                <a href="" className="comment-author">
-                  <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
-                    className="comment-author-img"
-                  />
-                </a>
-                &nbsp;
-                <a href="" className="comment-author">
-                  Jacob Schmidt
-                </a>
-                <span className="date-posted">Dec 29th</span>
-                <span className="mod-options">
-                  <i className="ion-edit"></i>
-                  <i className="ion-trash-a"></i>
-                </span>
-              </div>
-            </div>
+            {user ? (
+              <CommentForm slug={slug} image={user.image} />
+            ) : (
+              <p>
+                <Link to="/login">Sign in</Link>
+                or <Link to="/register">Sign up</Link> to add com
+              </p>
+            )}
           </div>
         </div>
+
+        {comments.map((comment) => (
+          <CommentView comment={comment} />
+        ))}
       </div>
     </div>
   );

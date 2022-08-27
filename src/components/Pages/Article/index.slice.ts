@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Article } from "../../../models/article/Article";
+import { Comment } from "../../../models/comment/Comment";
+import { CommentRequest } from "../../../models/comment/CommentRequest";
+import { MultipleCommentResponse } from "../../../models/comment/MultipleCommentResponse";
 import { Profile } from "../../../models/profile/Profile";
 
 export interface ArticleState {
   article?: Article;
+  comments: MultipleCommentResponse;
+  commentRequest: CommentRequest;
   isLoading: boolean;
   isFollowing: boolean;
   isFavoriting: boolean;
@@ -11,6 +16,8 @@ export interface ArticleState {
 
 const initialState: ArticleState = {
   article: undefined,
+  comments: { comments: [] },
+  commentRequest: { comment: { body: "" } },
   isLoading: false,
   isFollowing: false,
   isFavoriting: false,
@@ -37,6 +44,20 @@ const slice = createSlice({
         state.article.author = author;
       }
     },
+    updateComment(state, { payload: comment }: PayloadAction<string>) {
+      state.commentRequest.comment.body = comment;
+    },
+    setComments(
+      state,
+      {
+        payload: multipleCommentResponse,
+      }: PayloadAction<MultipleCommentResponse>
+    ) {
+      state.comments = multipleCommentResponse;
+    },
+    appendComment(state, { payload: comment }: PayloadAction<Comment>) {
+      state.comments.comments = [comment, ...state.comments.comments];
+    },
     resetState: () => initialState,
   },
 });
@@ -47,6 +68,9 @@ export const {
   setIsFollowing,
   setIsFavoriting,
   setAuthor,
+  updateComment,
+  setComments,
+  appendComment,
   resetState,
 } = slice.actions;
 export default slice.reducer;
