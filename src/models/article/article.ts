@@ -1,4 +1,4 @@
-import { Author } from "../author/Author";
+import { Profile } from "../profile/Profile";
 
 export interface Article {
   slug: string;
@@ -10,5 +10,5 @@ export interface Article {
   updatedAt: string;
   favorited: boolean;
   favoritesCount: Number;
-  author: Author;
+  author: Profile;
 }

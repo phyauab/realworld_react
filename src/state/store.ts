@@ -3,9 +3,10 @@ import login from "../components/Pages/Login/index.slice";
 import app from "../components/App/App.slice";
 import home from "../components/Pages/Home/index.slice";
 import editor from "../components/Editor/index.slice";
+import article from "../components/Pages/Article/index.slice";
 
 export const store = configureStore({
-  reducer: { app, login, home, editor },
+  reducer: { app, login, home, editor, article },
   devTools: {},
 });
 

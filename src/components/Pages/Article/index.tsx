@@ -1,30 +1,57 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/RootState";
+import { store } from "../../../state/store";
+import { resetState, setArticle, setIsLoading } from "../Article/index.slice";
+import articleService from "../../../services/article";
+import { useParams } from "react-router-dom";
+import { SingleArticleResponse } from "../../../models/article/SingleArticleResponse";
+import { AxiosResponse } from "axios";
+import { ArticleMeta } from "../../Article/ArticleMeta";
+
 export function ArticlePage() {
+  const { slug } = useParams();
+  const article = useSelector((state: RootState) => state.article.article);
+  const isLoading = useSelector((state: RootState) => state.article.isLoading);
+
+  function init() {
+    resetState();
+
+    if (slug) {
+      store.dispatch(setIsLoading(true));
+      articleService
+        .getArticle(slug)
+        .then((res: AxiosResponse<SingleArticleResponse>) => {
+          store.dispatch(setArticle(res.data.article));
+          store.dispatch(setIsLoading(false));
+        })
+        .catch((e) => {
+          console.log(e);
+          store.dispatch(setIsLoading(false));
+        });
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, [slug]);
+
+  if (isLoading || !article || !slug) {
+    return <></>;
+  }
+
   return (
     <div className="article-page">
       <div className="banner">
         <div className="container">
-          <h1>How to build webapps that scale</h1>
-
-          <div className="article-meta">
-            <a href="">
-              <img src="http://i.imgur.com/Qr71crq.jpg" />
-            </a>
-            <div className="info">
-              <a href="" className="author">
-                Eric Simons
-              </a>
-              <span className="date">January 20th</span>
-            </div>
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-plus-round"></i>
-              &nbsp; Follow Eric Simons <span className="counter">(10)</span>
-            </button>
-            &nbsp;&nbsp;
-            <button className="btn btn-sm btn-outline-primary">
-              <i className="ion-heart"></i>
-              &nbsp; Favorite Post <span className="counter">(29)</span>
-            </button>
-          </div>
+          <ArticleMeta
+            slug={slug}
+            title={article.title}
+            author={article.author}
+            createdAt={article.createdAt}
+            favorited={article.favorited}
+            favoritesCount={article.favoritesCount}
+          />
         </div>
       </div>
 

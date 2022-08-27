@@ -3,6 +3,7 @@ import axios from "../../common/axios";
 import { EditorArticleRequest } from "../../models/article/CreateArticleRequest";
 import { MultipleArticleResponse } from "../../models/article/MutipleArticleResponse";
 import { SingleArticleResponse } from "../../models/article/SingleArticleResponse";
+import { FollowResponse } from "../../models/profile/FollowResponse";
 
 class ArticleService {
   listArticles(
@@ -17,6 +18,10 @@ class ArticleService {
         tag: tag,
       },
     });
+  }
+
+  getArticle(slug: string): Promise<AxiosResponse<SingleArticleResponse>> {
+    return axios.get<SingleArticleResponse>(`/articles/${slug}`);
   }
 
   feedArticles(): Promise<AxiosResponse<MultipleArticleResponse>> {
