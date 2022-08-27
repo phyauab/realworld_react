@@ -100,8 +100,9 @@ export function ArticlePage() {
               <CommentForm slug={slug} image={user.image} />
             ) : (
               <p>
-                <Link to="/login">Sign in</Link>
-                or <Link to="/register">Sign up</Link> to add com
+                <Link to="/login">Sign in</Link> or{" "}
+                <Link to="/register">Sign up</Link> to add comments on this
+                article.
               </p>
             )}
           </div>
