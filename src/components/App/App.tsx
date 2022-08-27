@@ -70,6 +70,11 @@ function App() {
 }
 
 function init() {
+  const token = localStorage.getItem("realworld_token");
+  if (!token) {
+    return store.dispatch(setIsLoading(false));
+  }
+
   store.dispatch(setIsLoading(true));
   authService
     .getCurrentUser()
