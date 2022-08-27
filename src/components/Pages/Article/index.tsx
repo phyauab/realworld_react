@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { SingleArticleResponse } from "../../../models/article/SingleArticleResponse";
 import { AxiosResponse } from "axios";
 import { ArticleMeta } from "../../Article/ArticleMeta";
+import { CommentForm } from "../../Comment/CommentForm";
 
 export function ArticlePage() {
   const { slug } = useParams();
@@ -46,7 +47,6 @@ export function ArticlePage() {
           <h1>{article.title}</h1>
           <ArticleMeta
             slug={slug}
-            title={article.title}
             author={article.author}
             createdAt={article.createdAt}
             favorited={article.favorited}
@@ -67,7 +67,6 @@ export function ArticlePage() {
         <div className="article-actions">
           <ArticleMeta
             slug={slug}
-            title={article.title}
             author={article.author}
             createdAt={article.createdAt}
             favorited={article.favorited}
@@ -77,22 +76,7 @@ export function ArticlePage() {
 
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
-            <form className="card comment-form">
-              <div className="card-block">
-                <textarea
-                  className="form-control"
-                  placeholder="Write a comment..."
-                  rows={3}
-                ></textarea>
-              </div>
-              <div className="card-footer">
-                <img
-                  src="http://i.imgur.com/Qr71crq.jpg"
-                  className="comment-author-img"
-                />
-                <button className="btn btn-sm btn-primary">Post Comment</button>
-              </div>
-            </form>
+            <CommentForm />
 
             <div className="card">
               <div className="card-block">

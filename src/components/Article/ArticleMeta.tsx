@@ -16,7 +16,6 @@ import {
 
 interface Props {
   slug: string;
-  title: string;
   author: Profile;
   createdAt: string;
   favorited: boolean;
@@ -25,7 +24,6 @@ interface Props {
 
 export function ArticleMeta({
   slug,
-  title,
   author,
   createdAt,
   favorited,
