@@ -14,7 +14,7 @@ import { SingleArticleResponse } from "../../../models/article/SingleArticleResp
 import { AxiosResponse } from "axios";
 import { ArticleMeta } from "../../Article/ArticleMeta";
 import { CommentForm } from "../../Comment/CommentForm";
-import { CommentView } from "../../Comment/Comment";
+import { CommentView } from "../../Comment/CommentView";
 import { MultipleCommentResponse } from "../../../models/comment/MultipleCommentResponse";
 
 export function ArticlePage() {
@@ -107,8 +107,8 @@ export function ArticlePage() {
           </div>
         </div>
 
-        {comments.map((comment) => (
-          <CommentView comment={comment} />
+        {comments.map((comment, index: number) => (
+          <CommentView key={index} slug={slug} comment={comment} />
         ))}
       </div>
     </div>

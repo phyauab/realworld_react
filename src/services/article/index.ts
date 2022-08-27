@@ -56,6 +56,10 @@ class ArticleService {
   getComments(slug: string): Promise<AxiosResponse<MultipleCommentResponse>> {
     return axios.get(`/articles/${slug}/comments`);
   }
+
+  deleteComment(slug: string, id: Number): Promise<AxiosResponse> {
+    return axios.delete(`/articles/${slug}/comments/${id}`);
+  }
 }
 
 export default new ArticleService();

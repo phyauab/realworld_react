@@ -58,6 +58,11 @@ const slice = createSlice({
     appendComment(state, { payload: comment }: PayloadAction<Comment>) {
       state.comments.comments = [comment, ...state.comments.comments];
     },
+    removeComment(state, { payload: id }: PayloadAction<Number>) {
+      state.comments.comments = state.comments.comments.filter(
+        (comment: Comment) => comment.id !== id
+      );
+    },
     resetState: () => initialState,
   },
 });
@@ -71,6 +76,7 @@ export const {
   updateComment,
   setComments,
   appendComment,
+  removeComment,
   resetState,
 } = slice.actions;
 export default slice.reducer;
