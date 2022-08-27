@@ -34,6 +34,7 @@ export function SettingsPage() {
 
   function logout() {
     authService.logout();
+    return navigate("/");
   }
 
   function onUpdateField(name: string, value: string) {
