@@ -3,6 +3,7 @@ import { EditorState } from "../components/Editor/index.slice";
 import { ArticleState } from "../components/Pages/Article/index.slice";
 import { HomeState } from "../components/Pages/Home/index.slice";
 import { LoginState } from "../components/Pages/Login/index.slice";
+import { SettingState } from "../components/Pages/Settings/index.slice";
 
 export interface RootState {
   app: AppState;
@@ -10,4 +11,5 @@ export interface RootState {
   home: HomeState;
   editor: EditorState;
   article: ArticleState;
+  setting: SettingState;
 }
