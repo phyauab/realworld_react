@@ -23,12 +23,11 @@ export function ArticlePage() {
         .getArticle(slug)
         .then((res: AxiosResponse<SingleArticleResponse>) => {
           store.dispatch(setArticle(res.data.article));
-          store.dispatch(setIsLoading(false));
         })
         .catch((e) => {
           console.log(e);
-          store.dispatch(setIsLoading(false));
         });
+      store.dispatch(setIsLoading(false));
     }
   }
 
@@ -44,6 +43,7 @@ export function ArticlePage() {
     <div className="article-page">
       <div className="banner">
         <div className="container">
+          <h1>{article.title}</h1>
           <ArticleMeta
             slug={slug}
             title={article.title}
@@ -58,12 +58,7 @@ export function ArticlePage() {
       <div className="container page">
         <div className="row article-content">
           <div className="col-md-12">
-            <p>
-              Web development technologies have evolved at an incredible clip
-              over the past few years.
-            </p>
-            <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-            <p>It's a great solution for learning how other frameworks work.</p>
+            <p>{article.body}</p>
           </div>
         </div>
 

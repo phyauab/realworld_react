@@ -66,43 +66,40 @@ export function ArticleMeta({
   }
 
   return (
-    <>
-      <h1>{title}</h1>
-      <div className="article-meta">
-        <Link to={`/profile/${author.username}`}>
-          <img src={author.image ? author.image : DEFAULT_USER_IMAGE} />
+    <div className="article-meta">
+      <Link to={`/profile/${author.username}`}>
+        <img src={author.image ? author.image : DEFAULT_USER_IMAGE} />
+      </Link>
+      <div className="info">
+        <Link to={`/profile/${author.username}`} className="author">
+          {author.username}
         </Link>
-        <div className="info">
-          <Link to={`/profile/${author.username}`} className="author">
-            {author.username}
-          </Link>
-          <span className="date">{formatDate(createdAt)}</span>
-        </div>
-        <button
-          className={`btn btn-sm ${
-            author.following ? "btn-secondary" : "btn-outline-secondary"
-          }`}
-          disabled={isFollowing}
-          onClick={followUser}
-        >
-          <i className="ion-plus-round"></i>
-          &nbsp; {author.following ? "Unfollow" : "Follow"} {author.username}
-        </button>
-        &nbsp;&nbsp;
-        <button
-          className={`btn btn-sm ${
-            favorited ? "btn-primary" : "btn-outline-primary"
-          }`}
-          disabled={isFavoriting}
-          onClick={favoriteArticle}
-        >
-          <i className="ion-heart"></i>
-          &nbsp; Favorite Post{" "}
-          <span className="counter">
-            (<>{favoritesCount}</>)
-          </span>
-        </button>
+        <span className="date">{formatDate(createdAt)}</span>
       </div>
-    </>
+      <button
+        className={`btn btn-sm ${
+          author.following ? "btn-secondary" : "btn-outline-secondary"
+        }`}
+        disabled={isFollowing}
+        onClick={followUser}
+      >
+        <i className="ion-plus-round"></i>
+        &nbsp; {author.following ? "Unfollow" : "Follow"} {author.username}
+      </button>
+      &nbsp;&nbsp;
+      <button
+        className={`btn btn-sm ${
+          favorited ? "btn-primary" : "btn-outline-primary"
+        }`}
+        disabled={isFavoriting}
+        onClick={favoriteArticle}
+      >
+        <i className="ion-heart"></i>
+        &nbsp; Favorite Post{" "}
+        <span className="counter">
+          (<>{favoritesCount}</>)
+        </span>
+      </button>
+    </div>
   );
 }
