@@ -28,6 +28,9 @@ const slice = createSlice({
         ] = `Token ${user.token}`;
       } else {
         state.isLogin = false;
+        state.user = undefined;
+        localStorage.removeItem("realworld_token");
+        delete myAxios.defaults.headers.common["Authorization"];
       }
     },
     setIsLoading: (state, { payload: isLoading }: PayloadAction<boolean>) => {
