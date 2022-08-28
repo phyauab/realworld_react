@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EditorArticleRequest } from "../../models/article/CreateArticleRequest";
+import { EditorArticleRequest } from "../../models/article/EditorArticleRequest";
 import { EditorArticleState } from "../../models/article/EditorArticle";
 import { ValidationErrorResponse } from "../../models/common/ValidationErrorResponse";
 

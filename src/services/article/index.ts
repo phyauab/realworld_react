@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import axios from "../../common/axios";
-import { EditorArticleRequest } from "../../models/article/CreateArticleRequest";
+import { EditorArticleRequest } from "../../models/article/EditorArticleRequest";
 import { MultipleArticleResponse } from "../../models/article/MutipleArticleResponse";
 import { SingleArticleResponse } from "../../models/article/SingleArticleResponse";
 import { CommentRequest } from "../../models/comment/CommentRequest";
