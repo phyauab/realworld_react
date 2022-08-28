@@ -24,6 +24,10 @@ const initialState: ProfileState = {
       isAlwaysShow: true,
       isSelected: true,
       loginRequired: false,
+      params: {
+        limit: 10,
+        offset: 0,
+      },
     },
     {
       title: "Favorited Articles",
@@ -31,6 +35,10 @@ const initialState: ProfileState = {
       isAlwaysShow: true,
       isSelected: false,
       loginRequired: false,
+      params: {
+        limit: 10,
+        offset: 0,
+      },
     },
   ],
   articles: {

@@ -14,6 +14,7 @@ import { TagResponse } from "../../../models/tag/tag";
 import { AxiosResponse } from "axios";
 import { ArticleListViewr } from "../../Article/ArticleListViewer";
 import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
+import { ArticleListParam } from "../../../models/article/ArticleListParam";
 
 export function HomePage() {
   const tabs = useSelector((state: RootState) => state.home.tabs);
@@ -26,7 +27,7 @@ export function HomePage() {
   function setTab(tag: string) {
     store.dispatch(setSelectedTag(tag));
     articleService
-      .listArticles(10, 0, tag)
+      .listArticles(tabs[tabs.length - 1].params)
       .then((res: AxiosResponse<MultipleArticleResponse>) =>
         store.dispatch(setArticles(res.data))
       )

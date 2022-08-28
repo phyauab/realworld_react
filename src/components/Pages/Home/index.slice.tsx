@@ -20,6 +20,10 @@ const initialState: HomeState = {
       loginRequired: true,
       isSelected: true,
       isAlwaysShow: true,
+      params: {
+        limit: 10,
+        offset: 0,
+      },
     },
     {
       title: "Global Feed",
@@ -27,6 +31,10 @@ const initialState: HomeState = {
       loginRequired: false,
       isSelected: false,
       isAlwaysShow: true,
+      params: {
+        limit: 10,
+        offset: 0,
+      },
     },
     {
       title: "",
@@ -34,6 +42,10 @@ const initialState: HomeState = {
       isAlwaysShow: false,
       isSelected: false,
       loginRequired: false,
+      params: {
+        limit: 10,
+        offset: 0,
+      },
     },
   ],
   articles: {
@@ -71,6 +83,7 @@ const slice = createSlice({
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));
       state.tabs[state.tabs.length - 1].title = tag;
       state.tabs[state.tabs.length - 1].isSelected = true;
+      state.tabs[state.tabs.length - 1].params.tag = tag;
     },
     setSelectedTab: (state, { payload: index }: PayloadAction<number>) => {
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));

@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import axios from "../../common/axios";
+import { ArticleListParam } from "../../models/article/ArticleListParam";
 import { EditorArticleRequest } from "../../models/article/EditorArticleRequest";
 import { MultipleArticleResponse } from "../../models/article/MutipleArticleResponse";
 import { SingleArticleResponse } from "../../models/article/SingleArticleResponse";
@@ -9,18 +10,10 @@ import { SingleCommentResponse } from "../../models/comment/SingleCommentRespons
 
 class ArticleService {
   listArticles(
-    limit: number = 10,
-    offset: number = 0,
-    tag?: string,
-    favorited?: string
+    params: ArticleListParam
   ): Promise<AxiosResponse<MultipleArticleResponse>> {
     return axios.get<MultipleArticleResponse>("/articles", {
-      params: {
-        limit: limit,
-        offset: offset,
-        tag: tag,
-        favorited: favorited,
-      },
+      params: params,
     });
   }
 
