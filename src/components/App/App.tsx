@@ -52,10 +52,7 @@ function App() {
             path="/editor"
             element={<PrivateRoute children={<CreateArticlePage />} />}
           />
-          <Route
-            path="profile/:username"
-            element={<PrivateRoute children={<ProfilePage />} />}
-          />
+          <Route path="profile/:username" element={<ProfilePage />} />
           <Route
             path="/editor/:slug"
             element={<PrivateRoute children={<EditArticle />} />}
