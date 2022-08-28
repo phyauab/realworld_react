@@ -88,6 +88,7 @@ export function ArticleMeta({
         setIsLoading={setIsFollowing}
         setProfile={setAuthor}
         username={author.username}
+        isActionBtn={false}
       />
       &nbsp;&nbsp;
       <button

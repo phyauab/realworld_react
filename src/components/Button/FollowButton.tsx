@@ -7,6 +7,7 @@ import profileService from "../../services/profile";
 interface Props {
   isLoading: boolean;
   following: boolean;
+  isActionBtn: boolean;
   username: string;
   setIsLoading: Function;
   setProfile: Function;
@@ -18,6 +19,7 @@ export function FollowButton({
   username,
   setIsLoading,
   setProfile,
+  isActionBtn,
 }: Props) {
   const navigate = useNavigate();
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
@@ -40,7 +42,7 @@ export function FollowButton({
 
   return (
     <button
-      className={`btn btn-sm ${
+      className={`btn btn-sm ${isActionBtn && "action-btn"} ${
         following ? "btn-secondary" : "btn-outline-secondary"
       }`}
       disabled={isLoading}
