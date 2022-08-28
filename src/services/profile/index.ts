@@ -1,13 +1,18 @@
 import { AxiosResponse } from "axios";
-import { FollowResponse } from "../../models/profile/FollowResponse";
+import { ProfileResponse } from "../../models/profile/ProfileResponse";
 import axios from "../../common/axios";
 
 class ProfileService {
-  followUser(username: string): Promise<AxiosResponse<FollowResponse>> {
-    return axios.post<FollowResponse>(`profiles/${username}/follow`);
+  getProfile(username: string): Promise<AxiosResponse<ProfileResponse>> {
+    return axios.get<ProfileResponse>(`profiles/${username}`);
   }
-  unfollowUser(username: string): Promise<AxiosResponse<FollowResponse>> {
-    return axios.delete<FollowResponse>(`profiles/${username}/follow`);
+
+  followUser(username: string): Promise<AxiosResponse<ProfileResponse>> {
+    return axios.post<ProfileResponse>(`profiles/${username}/follow`);
+  }
+
+  unfollowUser(username: string): Promise<AxiosResponse<ProfileResponse>> {
+    return axios.delete<ProfileResponse>(`profiles/${username}/follow`);
   }
 }
 

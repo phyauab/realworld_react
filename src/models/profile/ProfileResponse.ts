@@ -1,5 +1,5 @@
 import { Profile } from "./Profile";
 
-export interface FollowResponse {
+export interface ProfileResponse {
   profile: Profile;
 }

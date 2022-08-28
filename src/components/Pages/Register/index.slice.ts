@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginRequest } from "../../../models/auth/LoginRequest";
 import { RegisterRequest } from "../../../models/auth/RegisterRequest";
 import { ValidationErrorResponse } from "../../../models/common/ValidationErrorResponse";
 

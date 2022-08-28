@@ -5,6 +5,7 @@ import { HomeState } from "../components/Pages/Home/index.slice";
 import { LoginState } from "../components/Pages/Login/index.slice";
 import { RegisterState } from "../components/Pages/Register/index.slice";
 import { SettingState } from "../components/Pages/Settings/index.slice";
+import { ProfileState } from "../components/Pages/Profile/index.slice";
 
 export interface RootState {
   app: AppState;
@@ -14,4 +15,5 @@ export interface RootState {
   editor: EditorState;
   article: ArticleState;
   setting: SettingState;
+  profile: ProfileState;
 }
