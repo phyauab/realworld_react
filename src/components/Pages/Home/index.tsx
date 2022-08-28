@@ -15,6 +15,7 @@ import { AxiosResponse } from "axios";
 import { ArticleListViewr } from "../../Article/ArticleListViewer";
 import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
 import { ArticleListParam } from "../../../models/article/ArticleListParam";
+import { TagList } from "../../Tag/TagList";
 
 export function HomePage() {
   const tabs = useSelector((state: RootState) => state.home.tabs);
@@ -32,6 +33,26 @@ export function HomePage() {
         store.dispatch(setArticles(res.data))
       )
       .then((e) => console.log(e));
+  }
+
+  function loadTags() {
+    tagService
+      .getTags()
+      .then((res: AxiosResponse<TagResponse>) =>
+        store.dispatch(setTags(res.data.tags))
+      )
+      .catch();
+  }
+
+  function Banner() {
+    return (
+      <div className="banner">
+        <div className="container">
+          <h1 className="logo-font">conduit</h1>
+          <p>A place to share your knowledge.</p>
+        </div>
+      </div>
+    );
   }
 
   useEffect(() => {
@@ -55,41 +76,10 @@ export function HomePage() {
             <div className="sidebar">
               <p>Popular Tags</p>
 
-              <div className="tag-list">
-                {tags.map((tag: string, index: number) => (
-                  <a
-                    href="#"
-                    key={index}
-                    className="tag-pill tag-default"
-                    onClick={() => setTab(tag)}
-                  >
-                    {tag}
-                  </a>
-                ))}
-              </div>
+              <TagList tags={tags} setTab={setTab} />
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function loadTags() {
-  tagService
-    .getTags()
-    .then((res: AxiosResponse<TagResponse>) =>
-      store.dispatch(setTags(res.data.tags))
-    )
-    .catch();
-}
-
-function Banner() {
-  return (
-    <div className="banner">
-      <div className="container">
-        <h1 className="logo-font">conduit</h1>
-        <p>A place to share your knowledge.</p>
       </div>
     </div>
   );
