@@ -13,6 +13,7 @@ import {
   setIsFavoriting,
   setIsFollowing,
 } from "../Pages/Article/index.slice";
+import { FollowButton } from "../Button/FollowButton";
 
 interface Props {
   slug: string;
@@ -81,16 +82,13 @@ export function ArticleMeta({
         </Link>
         <span className="date">{formatDate(createdAt)}</span>
       </div>
-      <button
-        className={`btn btn-sm ${
-          author.following ? "btn-secondary" : "btn-outline-secondary"
-        }`}
-        disabled={isFollowing}
-        onClick={followUser}
-      >
-        <i className="ion-plus-round"></i>
-        &nbsp; {author.following ? "Unfollow" : "Follow"} {author.username}
-      </button>
+      <FollowButton
+        following={author.following}
+        isLoading={isFollowing}
+        setIsLoading={setIsFollowing}
+        setProfile={setAuthor}
+        username={author.username}
+      />
       &nbsp;&nbsp;
       <button
         className={`btn btn-sm ${
