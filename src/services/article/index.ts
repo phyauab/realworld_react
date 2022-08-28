@@ -11,13 +11,15 @@ class ArticleService {
   listArticles(
     limit: number = 10,
     offset: number = 0,
-    tag?: string
+    tag?: string,
+    favorited?: string
   ): Promise<AxiosResponse<MultipleArticleResponse>> {
     return axios.get<MultipleArticleResponse>("/articles", {
       params: {
         limit: limit,
         offset: offset,
         tag: tag,
+        favorited: favorited,
       },
     });
   }

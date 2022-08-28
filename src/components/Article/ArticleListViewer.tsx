@@ -3,12 +3,6 @@ import { Article } from "../../models/article/Article";
 import { RootState } from "../../state/RootState";
 import { store } from "../../state/store";
 import { ArticlePreview } from "./ArticlePreview";
-import articleService from "../../services/article";
-import {
-  setArticles,
-  setSelectedTab,
-  setSelectedTag,
-} from "../Pages/Home/index.slice";
 import { useEffect } from "react";
 import { ArticleTab } from "../../models/common/ArticleTab";
 import { AxiosError, AxiosResponse } from "axios";
@@ -17,12 +11,20 @@ import { MultipleArticleResponse } from "../../models/article/MutipleArticleResp
 interface Props {
   articles: Article[];
   tabs: ArticleTab[];
+  setSelectedTab: Function;
+  setArticles: Function;
 }
 
-export function ArticleListViewr({ articles, tabs }: Props) {
+export function ArticleListViewr({
+  articles,
+  tabs,
+  setSelectedTab,
+  setArticles,
+}: Props) {
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
 
   function changeTab(index: number, func: Function, tag?: string) {
+    console.log("wtf?");
     store.dispatch(setSelectedTab(index));
     func(10, 0, tag)
       .then((res: AxiosResponse<MultipleArticleResponse>) =>
@@ -58,7 +60,10 @@ export function ArticleListViewr({ articles, tabs }: Props) {
                 <a
                   href="#"
                   className={`nav-link ${tab.isSelected && "active"}`}
-                  onClick={() => changeTab(index, tab.getArticles)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    changeTab(index, tab.getArticles);
+                  }}
                 >
                   {tab.isAlwaysShow ? tab.title : "# " + tab.title}
                 </a>

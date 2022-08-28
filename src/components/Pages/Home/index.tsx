@@ -3,7 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../state/RootState";
 import articleService from "../../../services/article";
 import tagService from "../../../services/tag";
-import { setArticles, setSelectedTag, setTags } from "./index.slice";
+import {
+  setArticles,
+  setSelectedTab,
+  setSelectedTag,
+  setTags,
+} from "./index.slice";
 import { store } from "../../../state/store";
 import { TagResponse } from "../../../models/tag/tag";
 import { AxiosResponse } from "axios";
@@ -38,7 +43,12 @@ export function HomePage() {
 
       <div className="container page">
         <div className="row">
-          <ArticleListViewr articles={articles} tabs={tabs} />
+          <ArticleListViewr
+            tabs={tabs}
+            articles={articles}
+            setSelectedTab={setSelectedTab}
+            setArticles={setArticles}
+          />
 
           <div className="col-md-3">
             <div className="sidebar">

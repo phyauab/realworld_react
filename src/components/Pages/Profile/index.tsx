@@ -3,16 +3,26 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../../state/RootState";
 import { store } from "../../../state/store";
-import { setIsLoading, setProfile } from "../Profile/index.slice";
-import { resetState } from "./index.slice";
+import {
+  setArticles,
+  setIsLoading,
+  setProfile,
+  setSelectedTab,
+  resetState,
+} from "./index.slice";
 import profileService from "../../../services/profile";
 import { AxiosResponse } from "axios";
 import { ProfileResponse } from "../../../models/profile/ProfileResponse";
 import { UserInfo } from "../../Profile/UserInfo";
+import { ArticleListViewr } from "../../Article/ArticleListViewer";
 
 export function ProfilePage() {
   const { username } = useParams();
   const navigate = useNavigate();
+  const tabs = useSelector((state: RootState) => state.profile.tabs);
+  const articles = useSelector(
+    (state: RootState) => state.profile.articles.articles
+  );
   const isLoading = useSelector((state: RootState) => state.profile.isLoading);
   const profile = useSelector((state: RootState) => state.profile.profile);
 
@@ -50,7 +60,13 @@ export function ProfilePage() {
 
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-md-10 offset-md-1">
+          <ArticleListViewr
+            tabs={tabs}
+            articles={articles}
+            setSelectedTab={setSelectedTab}
+            setArticles={setArticles}
+          />
+          {/* <div className="col-xs-12 col-md-10 offset-md-1">
             <div className="articles-toggle">
               <ul className="nav nav-pills outline-active">
                 <li className="nav-item">
@@ -116,7 +132,7 @@ export function ProfilePage() {
                 </ul>
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
