@@ -4,87 +4,74 @@ import { RootState } from "../../state/RootState";
 import { store } from "../../state/store";
 import { ArticlePreview } from "./ArticlePreview";
 import articleService from "../../services/article";
-import { setFeeds, setFeedToggle, setTag } from "../Pages/Home/index.slice";
+import {
+  setArticles,
+  setSelectedTab,
+  setSelectedTag,
+} from "../Pages/Home/index.slice";
 import { useEffect } from "react";
+import { ArticleTab } from "../../models/common/ArticleTab";
+import { AxiosError, AxiosResponse } from "axios";
+import { MultipleArticleResponse } from "../../models/article/MutipleArticleResponse";
 
-export function ArticleListViewr() {
+interface Props {
+  articles: Article[];
+  tabs: ArticleTab[];
+}
+
+export function ArticleListViewr({ articles, tabs }: Props) {
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
-  const feeds = useSelector((state: RootState) => state.home.feeds);
-  const feedToggle = useSelector((state: RootState) => state.home.feedToggle);
-  const tag = useSelector((state: RootState) => state.home.tag);
+
+  function changeTab(index: number, func: Function, tag?: string) {
+    store.dispatch(setSelectedTab(index));
+    func(10, 0, tag)
+      .then((res: AxiosResponse<MultipleArticleResponse>) =>
+        store.dispatch(setArticles(res.data))
+      )
+      .catch((e: AxiosError) => console.log(e));
+  }
+
+  function init() {
+    if (tabs.length <= 0) return;
+
+    tabs[0]
+      .getArticles(10, 0)
+      .then((res: AxiosResponse<MultipleArticleResponse>) =>
+        store.dispatch(setArticles(res.data))
+      )
+      .catch((e: AxiosError) => console.log(e));
+  }
 
   useEffect(() => {
-    if (feedToggle === "yourFeed" && isLogin) {
-      loadFeeds();
-    } else {
-      loadArticles(tag);
-    }
-  }, [feedToggle, tag]);
+    init();
+  }, []);
 
   return (
     <div className="col-md-9">
       <div className="feed-toggle">
         <ul className="nav nav-pills outline-active">
-          {isLogin && (
-            <li className="nav-item">
-              <a
-                href="#"
-                className={`nav-link ${
-                  feedToggle === "yourFeed" ? "active" : ""
-                }`}
-                onClick={() => changeFeedToggle("yourFeed")}
-              >
-                Your Feed
-              </a>
-            </li>
-          )}
-          <li className="nav-item">
-            <a
-              href="#"
-              className={`nav-link ${
-                feedToggle === "globalFeed" ? "active" : ""
-              }`}
-              onClick={() => changeFeedToggle("globalFeed")}
-            >
-              Global Feed
-            </a>
-          </li>
-          {tag && (
-            <li className="nav-item">
-              <a
-                href="#"
-                className={`nav-link ${feedToggle === "tag" ? "active" : ""}`}
-              >
-                {`# ${tag}`}
-              </a>
-            </li>
-          )}
+          {tabs.map((tab: ArticleTab, index: number) => {
+            if (tab.loginRequired && !isLogin) return <></>;
+            if (!tab.isAlwaysShow && !tab.isSelected) return <></>;
+            return (
+              <li className="nav-item" key={index}>
+                <a
+                  href="#"
+                  className={`nav-link ${tab.isSelected && "active"}`}
+                  onClick={() => changeTab(index, tab.getArticles)}
+                >
+                  {tab.isAlwaysShow ? tab.title : "# " + tab.title}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
-      {feeds &&
-        feeds?.articles.map((article: Article, index: number) => (
+      {articles &&
+        articles.map((article: Article, index: number) => (
           <ArticlePreview key={index} article={article} index={index} />
         ))}
     </div>
   );
-}
-
-function loadFeeds() {
-  articleService
-    .feedArticles()
-    .then((e) => store.dispatch(setFeeds(e.data)))
-    .catch((e) => console.log(e));
-}
-
-function loadArticles(tag?: string) {
-  articleService
-    .listArticles(10, 0, tag)
-    .then((e) => store.dispatch(setFeeds(e.data)))
-    .catch((e) => console.log(e));
-}
-
-function changeFeedToggle(feed: string) {
-  store.dispatch(setTag(undefined));
-  store.dispatch(setFeedToggle(feed));
 }

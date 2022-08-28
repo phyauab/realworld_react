@@ -9,8 +9,8 @@ import { SingleCommentResponse } from "../../models/comment/SingleCommentRespons
 
 class ArticleService {
   listArticles(
-    limit: Number,
-    offset: Number,
+    limit: number = 10,
+    offset: number = 0,
     tag?: string
   ): Promise<AxiosResponse<MultipleArticleResponse>> {
     return axios.get<MultipleArticleResponse>("/articles", {
@@ -26,8 +26,16 @@ class ArticleService {
     return axios.get<SingleArticleResponse>(`/articles/${slug}`);
   }
 
-  feedArticles(): Promise<AxiosResponse<MultipleArticleResponse>> {
-    return axios.get<MultipleArticleResponse>("/articles/feed");
+  feedArticles(
+    limit: number = 10,
+    offset: number = 0
+  ): Promise<AxiosResponse<MultipleArticleResponse>> {
+    return axios.get<MultipleArticleResponse>("/articles/feed", {
+      params: {
+        limit: limit,
+        offset: offset,
+      },
+    });
   }
 
   createArticle(

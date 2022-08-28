@@ -1,19 +1,32 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Article } from "../../../models/article/Article";
 import { RootState } from "../../../state/RootState";
-import { ArticlePreview } from "../../Article/ArticlePreview";
 import articleService from "../../../services/article";
 import tagService from "../../../services/tag";
-import { setFeeds, setFeedToggle, setTag, setTags } from "./index.slice";
+import { setArticles, setSelectedTag, setTags } from "./index.slice";
 import { store } from "../../../state/store";
 import { TagResponse } from "../../../models/tag/tag";
 import { AxiosResponse } from "axios";
 import { ArticleListViewr } from "../../Article/ArticleListViewer";
+import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
 
 export function HomePage() {
+  const tabs = useSelector((state: RootState) => state.home.tabs);
+  const articles = useSelector(
+    (state: RootState) => state.home.articles?.articles
+  );
   const tags = useSelector((state: RootState) => state.home.tags);
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
+
+  function setTab(tag: string) {
+    store.dispatch(setSelectedTag(tag));
+    articleService
+      .listArticles(10, 0, tag)
+      .then((res: AxiosResponse<MultipleArticleResponse>) =>
+        store.dispatch(setArticles(res.data))
+      )
+      .then((e) => console.log(e));
+  }
 
   useEffect(() => {
     loadTags();
@@ -25,27 +38,23 @@ export function HomePage() {
 
       <div className="container page">
         <div className="row">
-          <ArticleListViewr />
+          <ArticleListViewr articles={articles} tabs={tabs} />
 
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
 
               <div className="tag-list">
-                {tags &&
-                  tags.map((tag: string, index: number) => (
-                    <a
-                      href="#"
-                      key={index}
-                      className="tag-pill tag-default"
-                      onClick={() => {
-                        store.dispatch(setTag(tag));
-                        store.dispatch(setFeedToggle("tag"));
-                      }}
-                    >
-                      {tag}
-                    </a>
-                  ))}
+                {tags.map((tag: string, index: number) => (
+                  <a
+                    href="#"
+                    key={index}
+                    className="tag-pill tag-default"
+                    onClick={() => setTab(tag)}
+                  >
+                    {tag}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
