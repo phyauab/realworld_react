@@ -73,8 +73,11 @@ export function ArticlePreview({ article, index }: Props) {
         <p>{article.description}</p>
         <span>Read more...</span>
         <ul className="tag-list">
-          <li className="tag-default tag-pill tag-outline">Music</li>
-          <li className="tag-default tag-pill tag-outline">Song</li>
+          {article.tagList.map((tag: string, index: number) => (
+            <li key={index} className="tag-default tag-pill tag-outline">
+              {tag}
+            </li>
+          ))}
         </ul>
       </Link>
     </div>
