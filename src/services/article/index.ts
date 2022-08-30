@@ -22,14 +22,10 @@ class ArticleService {
   }
 
   feedArticles(
-    limit: number = 10,
-    offset: number = 0
+    params: ArticleListParam
   ): Promise<AxiosResponse<MultipleArticleResponse>> {
     return axios.get<MultipleArticleResponse>("/articles/feed", {
-      params: {
-        limit: limit,
-        offset: offset,
-      },
+      params: params,
     });
   }
 

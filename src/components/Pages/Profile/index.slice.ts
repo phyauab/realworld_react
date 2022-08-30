@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Article } from "../../../models/article/Article";
 import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
 import { ArticleTab } from "../../../models/common/ArticleTab";
 import { Profile } from "../../../models/profile/Profile";
-import articleService from "../../../services/article";
 
 export interface ProfileState {
   profile?: Profile;
@@ -20,25 +18,17 @@ const initialState: ProfileState = {
   tabs: [
     {
       title: "My Articles",
-      getArticles: articleService.listArticles,
       isAlwaysShow: true,
       isSelected: true,
       loginRequired: false,
-      params: {
-        limit: 10,
-        offset: 0,
-      },
+      mode: "author",
     },
     {
       title: "Favorited Articles",
-      getArticles: articleService.listArticles,
       isAlwaysShow: true,
       isSelected: false,
       loginRequired: false,
-      params: {
-        limit: 10,
-        offset: 0,
-      },
+      mode: "favorited",
     },
   ],
   articles: {
@@ -63,7 +53,7 @@ const slice = createSlice({
     ) => {
       state.isFollowing = isFollowing;
     },
-    setSelectedTab: (state, { payload: index }: PayloadAction<number>) => {
+    setTab: (state, { payload: index }: PayloadAction<number>) => {
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));
       state.tabs[index].isSelected = true;
     },
@@ -81,7 +71,7 @@ export const {
   setProfile,
   setIsLoading,
   setIsFollowing,
-  setSelectedTab,
+  setTab,
   setArticles,
   resetState,
 } = slice.actions;

@@ -1,9 +1,9 @@
 interface Props {
   tags: string[];
-  setTab: Function;
+  selectTag: Function;
 }
 
-export function TagList({ tags, setTab }: Props) {
+export function TagList({ tags, selectTag }: Props) {
   return (
     <div className="tag-list">
       {tags.map((tag: string, index: number) => (
@@ -11,7 +11,7 @@ export function TagList({ tags, setTab }: Props) {
           href="#"
           key={index}
           className="tag-pill tag-default"
-          onClick={() => setTab(tag)}
+          onClick={() => selectTag(tag)}
         >
           {tag}
         </a>

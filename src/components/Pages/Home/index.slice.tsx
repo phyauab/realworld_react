@@ -1,13 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Article } from "../../../models/article/Article";
-import { MultipleArticleResponse } from "../../../models/article/MutipleArticleResponse";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ArticleTab } from "../../../models/common/ArticleTab";
-import articleService from "../../../services/article";
+import tagService from "../../../services/tag";
 
 export interface HomeState {
   tabs: ArticleTab[];
   selectedTab: string;
-  articles: MultipleArticleResponse;
+
   tags: string[];
   selectedTag?: string;
 }
@@ -16,87 +14,59 @@ const initialState: HomeState = {
   tabs: [
     {
       title: "Your Feed",
-      getArticles: articleService.feedArticles,
+      mode: "feed",
       loginRequired: true,
       isSelected: true,
       isAlwaysShow: true,
-      params: {
-        limit: 10,
-        offset: 0,
-      },
     },
     {
       title: "Global Feed",
-      getArticles: articleService.listArticles,
+      mode: "list",
       loginRequired: false,
       isSelected: false,
       isAlwaysShow: true,
-      params: {
-        limit: 10,
-        offset: 0,
-      },
     },
     {
       title: "",
-      getArticles: articleService.listArticles,
+      mode: "tag",
       isAlwaysShow: false,
       isSelected: false,
       loginRequired: false,
-      params: {
-        limit: 10,
-        offset: 0,
-      },
     },
   ],
-  articles: {
-    articles: [],
-    articlesCount: 0,
-  },
   selectedTab: "globalFeed",
   tags: [],
   selectedTag: undefined,
 };
 
+export const fetchTags = createAsyncThunk("home/tags", async (thunkAPI) => {
+  const response = await tagService.getTags();
+  return response.data.tags;
+});
+
 const slice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setArticles: (
-      state,
-      { payload: articles }: PayloadAction<MultipleArticleResponse>
-    ) => {
-      state.articles = articles;
-    },
-    setArticle: (
-      state,
-      {
-        payload: { article, index },
-      }: PayloadAction<{ article: Article; index: number }>
-    ) => {
-      if (!state.articles) return;
-      state.articles.articles[index] = article;
-    },
     setTags: (state, { payload: tags }: PayloadAction<string[]>) => {
       state.tags = tags;
     },
-    setSelectedTag: (state, { payload: tag }: PayloadAction<string>) => {
+    setTag: (state, { payload: tag }: PayloadAction<string>) => {
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));
       state.tabs[state.tabs.length - 1].title = tag;
       state.tabs[state.tabs.length - 1].isSelected = true;
-      state.tabs[state.tabs.length - 1].params.tag = tag;
     },
     setSelectedTab: (state, { payload: index }: PayloadAction<number>) => {
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));
       state.tabs[index].isSelected = true;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTags.fulfilled, (state, action) => {
+      state.tags = action.payload;
+    });
+  },
 });
 
-export const {
-  setArticles,
-  setArticle,
-  setTags,
-  setSelectedTag,
-  setSelectedTab,
-} = slice.actions;
+export const { setTags, setTag, setSelectedTab } = slice.actions;
 export default slice.reducer;

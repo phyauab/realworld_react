@@ -9,7 +9,7 @@ import { SingleArticleResponse } from "../../models/article/SingleArticleRespons
 import articleService from "../../services/article";
 import { RootState } from "../../state/RootState";
 import { store } from "../../state/store";
-import { setArticle } from "../Pages/Home/index.slice";
+import { setArticle } from "../ArticleListViewer/index.slice";
 
 interface Props {
   article: Article;

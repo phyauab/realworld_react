@@ -5,11 +5,22 @@ import app from "../components/App/App.slice";
 import home from "../components/Pages/Home/index.slice";
 import editor from "../components/Editor/index.slice";
 import article from "../components/Pages/Article/index.slice";
+import articleListViewer from "../components/ArticleListViewer/index.slice";
 import setting from "../components/Pages/Settings/index.slice";
 import profile from "../components/Pages/Profile/index.slice";
 
 export const store = configureStore({
-  reducer: { app, login, register, home, editor, article, setting, profile },
+  reducer: {
+    app,
+    login,
+    register,
+    home,
+    editor,
+    article,
+    articleListViewer,
+    setting,
+    profile,
+  },
   devTools: {},
 });
 
