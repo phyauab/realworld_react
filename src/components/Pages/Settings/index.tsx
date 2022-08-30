@@ -46,7 +46,10 @@ export function SettingsPage() {
   function init() {
     store.dispatch(resetState());
     if (user) {
+      store.dispatch(updateField({ name: "image", value: user.image }));
       store.dispatch(updateField({ name: "username", value: user.username }));
+      store.dispatch(updateField({ name: "bio", value: user.bio }));
+      store.dispatch(updateField({ name: "email", value: user.email }));
     }
   }
 
