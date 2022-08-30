@@ -29,6 +29,7 @@ export function ProfilePage() {
   }
 
   function init() {
+    store.dispatch(setIsLoading(true));
     store.dispatch(resetState());
     if (username) {
       getProfile(username);

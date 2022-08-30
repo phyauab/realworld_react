@@ -47,7 +47,16 @@ export function ArticleListViewr({ tabs, setTab, toggleClassName }: Props) {
     if (tabs.length > 0) {
       store.dispatch(setTab(0));
       store.dispatch(
-        getArticles({ params: { limit: 10, offset: 0 }, mode: tabs[0].mode })
+        getArticles({
+          params: {
+            limit: 10,
+            offset: 0,
+            tag: tabs[0].mode === "tag" ? tabs[0].title : undefined,
+            author: tabs[0].mode === "author" ? username : undefined,
+            favorited: tabs[0].mode === "favorited" ? username : undefined,
+          },
+          mode: tabs[0].mode,
+        })
       );
     }
   }

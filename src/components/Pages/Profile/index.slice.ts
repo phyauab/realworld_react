@@ -57,22 +57,11 @@ const slice = createSlice({
       state.tabs.forEach((tab: ArticleTab) => (tab.isSelected = false));
       state.tabs[index].isSelected = true;
     },
-    setArticles: (
-      state,
-      { payload: articles }: PayloadAction<MultipleArticleResponse>
-    ) => {
-      state.articles = articles;
-    },
+
     resetState: () => initialState,
   },
 });
 
-export const {
-  setProfile,
-  setIsLoading,
-  setIsFollowing,
-  setTab,
-  setArticles,
-  resetState,
-} = slice.actions;
+export const { setProfile, setIsLoading, setIsFollowing, setTab, resetState } =
+  slice.actions;
 export default slice.reducer;
