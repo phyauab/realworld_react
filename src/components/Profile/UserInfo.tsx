@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { DEFAULT_USER_IMAGE } from "../../common/Constant";
 import { Profile } from "../../models/profile/Profile";
 import { RootState } from "../../state/RootState";
@@ -10,9 +11,11 @@ interface Props {
 }
 
 export function UserInfo({ profile }: Props) {
+  const { username } = useParams();
   const isFollowing = useSelector(
     (state: RootState) => state.profile.isFollowing
   );
+  const user = useSelector((state: RootState) => state.app.user);
 
   return (
     <div className="user-info">
@@ -26,14 +29,23 @@ export function UserInfo({ profile }: Props) {
             <h4>{profile.username}</h4>
             <p>{profile.bio}</p>
 
-            <FollowButton
-              following={profile.following}
-              isLoading={isFollowing}
-              setIsLoading={setIsFollowing}
-              setProfile={setProfile}
-              username={profile.username}
-              isActionBtn={true}
-            />
+            {username === user?.username ? (
+              <Link
+                className="btn btn-sm btn-outline-secondary action-btn"
+                to="/settings"
+              >
+                <i className="ion-gear-a"></i> Edit Profile Settings
+              </Link>
+            ) : (
+              <FollowButton
+                following={profile.following}
+                isLoading={isFollowing}
+                setIsLoading={setIsFollowing}
+                setProfile={setProfile}
+                username={profile.username}
+                isActionBtn={true}
+              />
+            )}
           </div>
         </div>
       </div>
