@@ -105,12 +105,11 @@ export function ArticlePage() {
                 article.
               </p>
             )}
+            {comments.map((comment, index: number) => (
+              <CommentView key={index} slug={slug} comment={comment} />
+            ))}
           </div>
         </div>
-
-        {comments.map((comment, index: number) => (
-          <CommentView key={index} slug={slug} comment={comment} />
-        ))}
       </div>
     </div>
   );
