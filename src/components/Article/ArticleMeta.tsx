@@ -14,6 +14,7 @@ import {
   setIsFollowing,
 } from "../Pages/Article/index.slice";
 import { FollowButton } from "../Button/FollowButton";
+import { Fragment } from "react";
 
 interface Props {
   slug: string;
@@ -38,22 +39,7 @@ export function ArticleMeta({
     (state: RootState) => state.article.isFavoriting
   );
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
-
-  async function followUser() {
-    if (!isLogin) {
-      return navigate("/login");
-    }
-    store.dispatch(setIsFollowing(true));
-    try {
-      const res = author.following
-        ? await profileService.unfollowUser(author.username)
-        : await profileService.followUser(author.username);
-      store.dispatch(setAuthor(res.data.profile));
-    } catch (e) {
-      console.log(e);
-    }
-    store.dispatch(setIsFollowing(false));
-  }
+  const user = useSelector((state: RootState) => state.app.user);
 
   async function favoriteArticle() {
     if (!isLogin) {
@@ -82,28 +68,49 @@ export function ArticleMeta({
         </Link>
         <span className="date">{formatDate(createdAt)}</span>
       </div>
-      <FollowButton
-        following={author.following}
-        isLoading={isFollowing}
-        setIsLoading={setIsFollowing}
-        setProfile={setAuthor}
-        username={author.username}
-        isActionBtn={false}
-      />
-      &nbsp;&nbsp;
-      <button
-        className={`btn btn-sm ${
-          favorited ? "btn-primary" : "btn-outline-primary"
-        }`}
-        disabled={isFavoriting}
-        onClick={favoriteArticle}
-      >
-        <i className="ion-heart"></i>
-        &nbsp; Favorite Post{" "}
-        <span className="counter">
-          (<>{favoritesCount}</>)
-        </span>
-      </button>
+      {user?.username !== author.username ? (
+        <Fragment>
+          <FollowButton
+            following={author.following}
+            isLoading={isFollowing}
+            setIsLoading={setIsFollowing}
+            setProfile={setAuthor}
+            username={author.username}
+            isActionBtn={false}
+          />
+          &nbsp;&nbsp;
+          <button
+            className={`btn btn-sm ${
+              favorited ? "btn-primary" : "btn-outline-primary"
+            }`}
+            disabled={isFavoriting}
+            onClick={favoriteArticle}
+          >
+            <i className="ion-heart"></i>
+            &nbsp; Favorite Post{" "}
+            <span className="counter">
+              (<>{favoritesCount}</>)
+            </span>
+          </button>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Link
+            className="btn btn-outline-secondary btn-sm"
+            to={`/editor/${slug}`}
+          >
+            <i className="ion-edit"></i> Edit Article
+          </Link>
+          &nbsp;&nbsp;
+          <button
+            className="btn btn-outline-danger btn-sm"
+            ng-class="{disabled: $ctrl.isDeleting}"
+            ng-click="$ctrl.deleteArticle()"
+          >
+            <i className="ion-trash-a"></i> Delete Article
+          </button>
+        </Fragment>
+      )}
     </div>
   );
 }

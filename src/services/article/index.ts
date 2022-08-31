@@ -35,6 +35,16 @@ class ArticleService {
     return axios.post<SingleArticleResponse>("/articles", createArticleRequest);
   }
 
+  updateArticle(
+    slug: string,
+    updateArticleRequest: EditorArticleRequest
+  ): Promise<AxiosResponse<SingleArticleResponse>> {
+    return axios.put<SingleArticleResponse>(
+      `/articles/${slug}`,
+      updateArticleRequest
+    );
+  }
+
   favoriteArticle(slug: string): Promise<AxiosResponse<SingleArticleResponse>> {
     return axios.post<SingleArticleResponse>(`articles/${slug}/favorite`);
   }
