@@ -45,17 +45,23 @@ export function ArticleListViewr({ tabs, setTab, toggleClassName }: Props) {
 
   function init() {
     if (tabs.length > 0) {
-      store.dispatch(setTab(0));
+      let firstLegitIndex = isLogin ? 0 : 1;
+      store.dispatch(setTab(firstLegitIndex));
       store.dispatch(
         getArticles({
           params: {
             limit: 10,
             offset: 0,
-            tag: tabs[0].mode === "tag" ? tabs[0].title : undefined,
-            author: tabs[0].mode === "author" ? username : undefined,
-            favorited: tabs[0].mode === "favorited" ? username : undefined,
+            tag:
+              tabs[firstLegitIndex].mode === "tag"
+                ? tabs[firstLegitIndex].title
+                : undefined,
+            author:
+              tabs[firstLegitIndex].mode === "author" ? username : undefined,
+            favorited:
+              tabs[firstLegitIndex].mode === "favorited" ? username : undefined,
           },
-          mode: tabs[0].mode,
+          mode: tabs[firstLegitIndex].mode,
         })
       );
     }
