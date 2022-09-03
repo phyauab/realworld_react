@@ -19,6 +19,10 @@ export function HomePage() {
     );
   }
 
+  useEffect(() => {
+    store.dispatch(fetchTags());
+  }, []);
+
   function Banner() {
     return (
       <div className="banner">
@@ -29,10 +33,6 @@ export function HomePage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    store.dispatch(fetchTags());
-  }, []);
 
   return (
     <div className="home-page">

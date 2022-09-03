@@ -4,8 +4,6 @@ import tagService from "../../../services/tag";
 
 export interface HomeState {
   tabs: ArticleTab[];
-  selectedTab: string;
-
   tags: string[];
   selectedTag?: string;
 }
@@ -34,7 +32,6 @@ const initialState: HomeState = {
       loginRequired: false,
     },
   ],
-  selectedTab: "globalFeed",
   tags: [],
   selectedTag: undefined,
 };
