@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { User } from "../../../models/common/User";
 import { UpdateUserRequest } from "../../../models/user/UpdateUserRequest";
 
 export interface SettingState {
@@ -41,9 +42,16 @@ const slice = createSlice({
       console.log("here");
       state.isLoading = isLoading;
     },
+    setInitialFields: (state, { payload: user }: PayloadAction<User>) => {
+      state.updateUserRequest.user.email = user.email;
+      state.updateUserRequest.user.username = user.username;
+      state.updateUserRequest.user.image = user.image;
+      state.updateUserRequest.user.bio = user.bio;
+    },
     resetState: () => initialState,
   },
 });
 
-export const { resetState, updateField, setIsLoading } = slice.actions;
+export const { resetState, updateField, setIsLoading, setInitialFields } =
+  slice.actions;
 export default slice.reducer;

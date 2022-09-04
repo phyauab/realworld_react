@@ -42,6 +42,7 @@ export function CommentView({ slug, comment }: Props) {
             src={
               comment.author.image ? comment.author.image : DEFAULT_USER_IMAGE
             }
+            alt="user_image"
             className="comment-author-img"
           />
         </Link>

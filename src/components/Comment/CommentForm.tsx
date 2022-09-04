@@ -51,6 +51,7 @@ export function CommentForm({ slug, image }: Props) {
         <img
           src={image ? image : DEFAULT_USER_IMAGE}
           className="comment-author-img"
+          alt="user_image"
         />
         <button className="btn btn-sm btn-primary" type="submit">
           Post Comment

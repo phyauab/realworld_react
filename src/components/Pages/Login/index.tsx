@@ -12,9 +12,30 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../../ErrorMessage";
 
 export function LoginPage() {
+  const navigate = useNavigate();
   const error = useSelector((state: RootState) => state.login.error);
   const isLogin = useSelector((state: RootState) => state.app.isLogin);
-  const navigate = useNavigate();
+
+  function onUpdateField(name: string, value: string) {
+    store.dispatch(
+      updateField({ name: name as keyof LoginRequest["user"], value })
+    );
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    store.dispatch(setError(undefined));
+    authService
+      .login(store.getState().login.loginRequest)
+      .then((e) => {
+        store.dispatch(setUser(e.data.user));
+      })
+      .catch((e: AxiosError<ValidationErrorResponse>) => {
+        if (e.response) {
+          store.dispatch(setError(e.response?.data));
+        }
+      });
+  }
 
   useEffect(() => {
     if (isLogin) {
@@ -34,7 +55,7 @@ export function LoginPage() {
 
             <ErrorMessage error={error} />
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <fieldset className="form-group">
                 <input
                   name="email"
@@ -55,7 +76,7 @@ export function LoginPage() {
               </fieldset>
               <button
                 className="btn btn-lg btn-primary pull-xs-right"
-                onClick={handleSubmit}
+                type="submit"
               >
                 Sign up
               </button>
@@ -65,25 +86,4 @@ export function LoginPage() {
       </div>
     </div>
   );
-}
-
-function onUpdateField(name: string, value: string) {
-  store.dispatch(
-    updateField({ name: name as keyof LoginRequest["user"], value })
-  );
-}
-
-function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
-  store.dispatch(setError(undefined));
-  authService
-    .login(store.getState().login.loginRequest)
-    .then((e) => {
-      store.dispatch(setUser(e.data.user));
-    })
-    .catch((e: AxiosError<ValidationErrorResponse>) => {
-      if (e.response) {
-        store.dispatch(setError(e.response?.data));
-      }
-    });
 }

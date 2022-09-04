@@ -3,7 +3,12 @@ import { useSelector } from "react-redux";
 import { UpdateUserRequest } from "../../../models/user/UpdateUserRequest";
 import { RootState } from "../../../state/RootState";
 import { store } from "../../../state/store";
-import { resetState, setIsLoading, updateField } from "./index.slice";
+import {
+  resetState,
+  setInitialFields,
+  setIsLoading,
+  updateField,
+} from "./index.slice";
 import userService from "../../../services/user";
 import { AxiosResponse } from "axios";
 import { setUser } from "../../App/App.slice";
@@ -43,18 +48,11 @@ export function SettingsPage() {
     );
   }
 
-  function init() {
+  useEffect(() => {
     store.dispatch(resetState());
     if (user) {
-      store.dispatch(updateField({ name: "image", value: user.image }));
-      store.dispatch(updateField({ name: "username", value: user.username }));
-      store.dispatch(updateField({ name: "bio", value: user.bio }));
-      store.dispatch(updateField({ name: "email", value: user.email }));
+      store.dispatch(setInitialFields(user));
     }
-  }
-
-  useEffect(() => {
-    init();
   }, []);
 
   return (
